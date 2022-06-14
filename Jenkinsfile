@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Storage Clean Up') {
             steps {
-                sh 'sudo rm -rf /home/jovannewland/node_modules/'
+                sh 'rm -rf /home/jovannewland/node_modules/'
             }
         }
     }
