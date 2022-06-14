@@ -9,7 +9,7 @@ pipeline {
                     sh 'npx gatsby build'
             }
         }
-        stage('Packaging Up') {
+        stage('Packaging Up Da Work') {
             steps {
                 sh 'zip gatsby-${JOB_NAME}-${BUILD_NUMBER}.zip ./public/*'
             }
