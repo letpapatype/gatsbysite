@@ -2,9 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout SCM') {
-            steps {checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'githubkey', url: 'https://github.com/letpapatype/gatsbytester']]])}
-        }
         stage('Building New changes') {
             steps {
                 nodejs('Gatsby for Jenkins') {
@@ -18,16 +15,21 @@ pipeline {
                 sh 'zip gatsby-${JOB_NAME}-${BUILD_NUMBER}.zip ./public/*'
             }
         }
-        stage('Cleaning Up'){
+        stage('Deploy') {
+            steps {
+                azureUpload containerName: 'jenkinsbuilds', filesPath: '**/*.zip', storageCredentialId: 'azuresartifactstorage', storageType: 'blobstorage'
+            }
+        }
+        stage('Cleaning Up Gatsby'){
             steps {
                 nodejs('Gatsby for Jenkins') {
                     sh 'gatsby clean'
                 }
             }
         }
-        stage('Deploy') {
+        stage('Storage Clean Up') {
             steps {
-                azureUpload containerName: 'jenkinsbuilds', filesPath: '**/*.zip', storageCredentialId: 'azuresartifactstorage', storageType: 'blobstorage'
+                sh 'sudo rm -rf /home/jovannewland/node_modules/'
             }
         }
     }
