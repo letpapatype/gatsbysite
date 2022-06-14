@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Build Prep') {
+        stage('Building New changes') {
             steps {
                 nodejs('Gatsby for Jenkins') {
                     sh 'npm install'
