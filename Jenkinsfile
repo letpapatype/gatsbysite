@@ -10,6 +10,7 @@ pipeline {
                 nodejs('Gatsby for Jenkins') {
                     sh 'npm install'
                     sh 'npx gatsby build'
+                }
             }
         }
         stage('Packaging Up Da Work') {
@@ -21,6 +22,7 @@ pipeline {
             steps {
                 nodejs('Gatsby for Jenkins') {
                     sh 'gatsby clean'
+                }
             }
         }
         stage('Deploy') {
